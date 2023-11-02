@@ -25,41 +25,27 @@ public class AppTest
     public void tearDown()
     {
         response = null;
-        people = null;
     }
 
-    private Response people2Response(){
-        return given().when().get(API_URL + peopleEndPoint);
-    }
-
-    private People getPeople2(){
-        return gson.fromJson(response.body().asString(), People.class);
-    }
-
-    @Test
+    @Test(priority =  0)
     public void checkPeople2IsOK(){
-        response = people2Response();
+        response = given().when().get(API_URL + peopleEndPoint);
         Assert.assertEquals(response.getStatusCode(), OK);
+        people = gson.fromJson(response.body().asString(), People.class);
     }
 
-    @Test
+    @Test(priority = 1)
     public void checkPeople2Skin(){
-        response = people2Response();
-        people = getPeople2();
         Assert.assertEquals(people.getSkin_color(), "gold");
     }
 
-    @Test
+    @Test(priority =  2)
     public void checkPeopleFilms(){
-        response = people2Response();
-        people = getPeople2();
         Assert.assertEquals(people.getFilms().size(), 6);
     }
 
-    @Test
+    @Test(priority =  3)
     public void checkFilm2(){
-        response = people2Response();
-        people = getPeople2();
         response = given().when().get(people.getFilms().get(1));
         Film film = gson.fromJson(response.body().asString(), Film.class);
         Assert.assertFalse(film.getCharacters().isEmpty());
