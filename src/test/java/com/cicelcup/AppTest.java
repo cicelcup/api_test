@@ -2,6 +2,7 @@ package com.cicelcup;
 
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 import com.google.gson.Gson;
@@ -30,6 +31,10 @@ public class AppTest
         return given().when().get(API_URL + peopleEndPoint);
     }
 
+    private People getPeople2(){
+        return gson.fromJson(response.body().asString(), People.class);
+    }
+
     @Test
     public void checkPeople2IsOK(){
         response = people2Response();
@@ -39,14 +44,22 @@ public class AppTest
     @Test
     public void checkPeople2Skin(){
         response = people2Response();
-        people = gson.fromJson(response.body().asString(), People.class);
+        people = getPeople2();
         Assert.assertEquals(people.getSkin_color(), "gold");
     }
 
     @Test
     public void checkPeopleFilms(){
         response = people2Response();
-        people = gson.fromJson(response.body().asString(), People.class);
+        people = getPeople2();
         Assert.assertEquals(people.getFilms().size(), 6);
+    }
+
+    @Test
+    public void checkFilm2(){
+        response = people2Response();
+        people = getPeople2();
+        response = given().when().get(people.getFilms().get(1));
+        System.out.println(response.body().asString());
     }
 }
