@@ -2,10 +2,8 @@ package com.cicelcup;
 
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
-import com.Film;
 import com.google.gson.Gson;
 
 import io.restassured.response.Response;
@@ -19,6 +17,7 @@ public class AppTest
     
     Response response;
     People people;
+    Film film;
     Gson gson = new Gson();
 
     @AfterTest
@@ -40,18 +39,25 @@ public class AppTest
     }
 
     @Test(priority =  2)
-    public void checkPeopleFilms(){
+    public void checkPeople2Films(){
         Assert.assertEquals(people.getFilms().size(), 6);
     }
 
     @Test(priority =  3)
     public void checkFilm2(){
         response = given().when().get(people.getFilms().get(1));
-        Film film = gson.fromJson(response.body().asString(), Film.class);
+        film = gson.fromJson(response.body().asString(), Film.class);
         Assert.assertFalse(film.getCharacters().isEmpty());
         Assert.assertFalse(film.getPlanets().isEmpty());
         Assert.assertFalse(film.getStarships().isEmpty());
         Assert.assertFalse(film.getVehicles().isEmpty());
         Assert.assertFalse(film.getSpecies().isEmpty());
+    }
+
+    @Test(priority = 4)
+    public void checkFirstPlanet(){
+        response = given().when().get(film.getPlanets().get(0));
+        Planet planet = gson.fromJson(response.body().asString(), Planet.class);
+        Assert.assertEquals(planet.getGravity(), "1.1 standard");
     }
 }
