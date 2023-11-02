@@ -71,4 +71,11 @@ public class AppTest
     public void checkFirstPlanetInfo(){
         Assert.assertEquals(planet.getGravity(), "1.1 standard");
     }
+
+    @Test(priority =  7)
+    public void checkFirstPlanetUrl(){
+        response = given().when().get(planet.getUrl());
+        Planet planetToCheck = gson.fromJson(response.body().asString(), Planet.class);
+        Assert.assertEquals(planetToCheck, planet);
+    }
 }
