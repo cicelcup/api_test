@@ -1,6 +1,7 @@
 package com.cicelcup;
 
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.Test;
 
@@ -24,10 +25,17 @@ public class AppTest
     Gson gson = new Gson();
 
     @AfterTest
-    public void tearDown()
+    public void tearDownResponse()
     {
         response = null;
     }
+    @AfterClass
+    public void tearDown(){
+        people = null;
+        film = null;
+        planet = null;
+    }
+
 
     @Test(priority =  0)
     public void checkPeople2IsOK(){
