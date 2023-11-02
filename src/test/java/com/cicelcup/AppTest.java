@@ -4,6 +4,8 @@ import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.Test;
 
+import com.google.gson.Gson;
+
 import io.restassured.response.Response;
 import static io.restassured.RestAssured.given;
 
@@ -25,5 +27,9 @@ public class AppTest
         String endPoint = "people/2";
         response = given().when().get(API_URL + endPoint);
         Assert.assertEquals(response.getStatusCode(), OK);
+
+        Gson gson = new Gson();
+        People people = gson.fromJson(response.body().asString(), People.class);
+        System.out.println(people.toString());
     }
 }
