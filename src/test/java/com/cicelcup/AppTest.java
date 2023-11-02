@@ -5,6 +5,7 @@ import org.testng.annotations.AfterTest;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
+import com.Film;
 import com.google.gson.Gson;
 
 import io.restassured.response.Response;
@@ -60,6 +61,11 @@ public class AppTest
         response = people2Response();
         people = getPeople2();
         response = given().when().get(people.getFilms().get(1));
-        System.out.println(response.body().asString());
+        Film film = gson.fromJson(response.body().asString(), Film.class);
+        Assert.assertFalse(film.getCharacters().isEmpty());
+        Assert.assertFalse(film.getPlanets().isEmpty());
+        Assert.assertFalse(film.getStarships().isEmpty());
+        Assert.assertFalse(film.getVehicles().isEmpty());
+        Assert.assertFalse(film.getSpecies().isEmpty());
     }
 }

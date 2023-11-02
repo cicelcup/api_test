@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import lombok.Data;
 
 @Data
-public class Films{
+public class Film{
     private String title;
     private int episode_id;
     private String opening_crawl;
