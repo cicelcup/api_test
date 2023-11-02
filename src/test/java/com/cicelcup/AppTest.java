@@ -12,8 +12,10 @@ import static io.restassured.RestAssured.given;
 public class AppTest 
 {
     static int OK = 200;
+    static int NOT_FOUND = 404;
     static String API_URL = "https://swapi.dev/api/";
     static String peopleEndPoint = "people/2";
+    static String filmEndPoint = "films/7/";
     
     Response response;
     People people;
@@ -77,5 +79,11 @@ public class AppTest
         response = given().when().get(planet.getUrl());
         Planet planetToCheck = gson.fromJson(response.body().asString(), Planet.class);
         Assert.assertEquals(planetToCheck, planet);
+    }
+
+    @Test(priority = 8)
+    public void checkNotFound(){
+        response = given().when().get(API_URL + filmEndPoint);
+        Assert.assertEquals(response.getStatusCode(), NOT_FOUND);
     }
 }
