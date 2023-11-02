@@ -18,6 +18,7 @@ public class AppTest
     Response response;
     People people;
     Film film;
+    Planet planet;
     Gson gson = new Gson();
 
     @AfterTest
@@ -43,10 +44,15 @@ public class AppTest
         Assert.assertEquals(people.getFilms().size(), 6);
     }
 
-    @Test(priority =  3)
-    public void checkFilm2(){
+    @Test(priority = 3)
+    public void checkFilm2IsOk(){
         response = given().when().get(people.getFilms().get(1));
+        Assert.assertEquals(response.getStatusCode(), OK);
         film = gson.fromJson(response.body().asString(), Film.class);
+    }
+
+    @Test(priority =  4)
+    public void checkFilm2Info(){
         Assert.assertFalse(film.getCharacters().isEmpty());
         Assert.assertFalse(film.getPlanets().isEmpty());
         Assert.assertFalse(film.getStarships().isEmpty());
@@ -54,10 +60,15 @@ public class AppTest
         Assert.assertFalse(film.getSpecies().isEmpty());
     }
 
-    @Test(priority = 4)
-    public void checkFirstPlanet(){
+    @Test(priority = 5)
+    public void checkPlanet1IsOk(){
         response = given().when().get(film.getPlanets().get(0));
-        Planet planet = gson.fromJson(response.body().asString(), Planet.class);
+        Assert.assertEquals(response.getStatusCode(), OK);
+        planet = gson.fromJson(response.body().asString(), Planet.class);
+    }
+
+    @Test(priority = 6)
+    public void checkFirstPlanetInfo(){
         Assert.assertEquals(planet.getGravity(), "1.1 standard");
     }
 }
