@@ -22,7 +22,8 @@ public class AppTest
 
     @Test
     public void checkPeople2Test(){
-        response = given().when().get(API_URL + "people/2");
+        String endPoint = "people/2";
+        response = given().when().get(API_URL + endPoint);
         Assert.assertEquals(response.getStatusCode(), OK);
     }
 }
